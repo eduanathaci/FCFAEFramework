@@ -10,8 +10,6 @@ namespace FCFAEFramework.Models
     {
         public int ID { get; set; }
         //public Service Service { get; set; }
-
-        [Column("Description")]
         public string Purpose { get; set; }
         public DateTime? InsertDate { get; set; }
 

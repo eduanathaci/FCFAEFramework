@@ -9,7 +9,6 @@ namespace FCFAEFramework.Models
     public class Service
     {
         public int ID { get; set; }
-        [Column("Name")]
         public string ServiceName { get; set; }
         public string Banner { get; set; }
         public string Description { get; set; }

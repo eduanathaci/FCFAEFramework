@@ -60,7 +60,7 @@ namespace FCFAEFramework.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Banner,Description,StartDate,EndDate,IsActive,CompanyID")] Service service,FormCollection collection)
+        public ActionResult Create([Bind(Include = "ID,Name,Banner,Description,StartDate,EndDate,IsActive,CompanyID")] Service service,FormCollection collection,Data data)
         {
             if (ModelState.IsValid)
             {
@@ -108,24 +108,43 @@ namespace FCFAEFramework.Controllers
                             
                         }
                     }
+                    List<Company> c = (List<Company>)Session["Company"];
+
+                    if (a==0)
+                    {
+                        service.CompanyID = c[0].ID;
+                        db.Services.Add(service);
+                        db.SaveChanges();
+                    }
+                    int sID = service.ID;
+
+                    int i = -1;
+                    foreach (var item in pairs)
+                    {
+                        Consent consent = new Consent();
+                        if (i==-1)
+                        {
+                            consent.Purpose = item.Value;
+                        }
+                        else
+                        {
+                            var requiredData = db.Datas.FirstOrDefault(n => n.NameOfData == item.Key);
+
+                            int id = requiredData.ID;
+                            consent.DataID= id;
+                            consent.InsertDate = DateTime.Now;
+                            consent.ServiceID = sID;
+                            db.Consents.Add(consent);
+                            db.SaveChanges();
+
+                        }
+                        i++;
+                    }
                 }
-               
-               
-                List<Company> c = (List<Company>)Session["Company"];
-
-                service.CompanyID = c[0].ID;
-                db.Services.Add(service);
-                db.SaveChanges();
-
-                int serviceID = service.ID;
                 return RedirectToAction("Index");
             }
 
             ViewBag.CompanyID = new SelectList(db.Companies, "ID", "Name", service.CompanyID);
-
-
-
-            //Kemi mbete qysh me marr id sipas emrit te te dhenes ne databaze.
             return View(service);
         }
 

@@ -141,22 +141,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201901311344266_InitialModel.cs" />
-    <Compile Include="Migrations\201901311344266_InitialModel.Designer.cs">
-      <DependentUpon>201901311344266_InitialModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901311508569_AddColumnInsertDateToNull.cs" />
-    <Compile Include="Migrations\201901311508569_AddColumnInsertDateToNull.Designer.cs">
-      <DependentUpon>201901311508569_AddColumnInsertDateToNull.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902011236260_UpdateDatabase.cs" />
-    <Compile Include="Migrations\201902011236260_UpdateDatabase.Designer.cs">
-      <DependentUpon>201902011236260_UpdateDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902020036143_addServiceIdInConsentsTable.cs" />
-    <Compile Include="Migrations\201902020036143_addServiceIdInConsentsTable.Designer.cs">
-      <DependentUpon>201902020036143_addServiceIdInConsentsTable.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Company.cs" />
@@ -245,20 +229,6 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201901311344266_InitialModel.resx">
-      <DependentUpon>201901311344266_InitialModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901311508569_AddColumnInsertDateToNull.resx">
-      <DependentUpon>201901311508569_AddColumnInsertDateToNull.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902011236260_UpdateDatabase.resx">
-      <DependentUpon>201902011236260_UpdateDatabase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902020036143_addServiceIdInConsentsTable.resx">
-      <DependentUpon>201902020036143_addServiceIdInConsentsTable.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
