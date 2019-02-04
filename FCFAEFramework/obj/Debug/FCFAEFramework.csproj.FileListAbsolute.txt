@@ -82,3 +82,8 @@ C:\Users\qendrim\source\repos\FCFAEFramework\FCFAEFramework\obj\Debug\FCFAEFrame
 C:\Users\qendrim\source\repos\FCFAEFramework\FCFAEFramework\obj\Debug\FCFAEFramework.csproj.CopyComplete
 C:\Users\qendrim\source\repos\FCFAEFramework\FCFAEFramework\obj\Debug\FCFAEFramework.dll
 C:\Users\qendrim\source\repos\FCFAEFramework\FCFAEFramework\obj\Debug\FCFAEFramework.pdb
+C:\Users\qendrim\source\repos\FCFAEFramework\FCFAEFramework\obj\Debug\FCFAEFramework.Migrations.InitialModel.resources
+C:\Users\qendrim\source\repos\FCFAEFramework\FCFAEFramework\obj\Debug\FCFAEFramework.csproj.GenerateResource.cache
+C:\Users\qendrim\source\repos\FCFAEFramework\FCFAEFramework\obj\Debug\FCFAEFramework.Migrations.secondCommit.resources
+C:\Users\qendrim\source\repos\FCFAEFramework\FCFAEFramework\obj\Debug\FCFAEFramework.Migrations.thirdCommit.resources
+C:\Users\qendrim\source\repos\FCFAEFramework\FCFAEFramework\obj\Debug\FCFAEFramework.Migrations.ChangeServiceName.resources

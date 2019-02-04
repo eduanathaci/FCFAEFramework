@@ -58,6 +58,10 @@ namespace FCFAEFramework.Models
             modelBuilder.Entity<Data>()
              .Property(t => t.TypeOfData).HasMaxLength(100);
 
+            modelBuilder.Entity<Consent>()
+                .Property(t => t.ID)
+                .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
+
 
 
         }

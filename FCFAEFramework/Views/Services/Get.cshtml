@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Get";
+}
+
+@*<h2>Get</h2>*@
+
+@{foreach (var item in ViewBag.Service)
+    {
+        <h2 style="text-align:center">@*Emri i sherbimit:*@ @item.ServiceName</h2>
+        <p>Banner: @item.Banner</p>
+        <h4 style="text-align:center">Pershkrimi: @item.Description</h4>
+        <p>Data e fillimit: @item.StartDate</p>
+        <p>Data e mbarimit: @item.EndDate</p>
+
+    }
+
+}
+@*Nevojiten keto te dhena:<br>*@
+        <form action="/" method="post">
+
+            @{foreach (KeyValuePair<int, string[]> item in ViewBag.Inputs)
+                {
+                    <label>@item.Value[0]</label>
+                    <input type="@item.Value[1]" name="@item.Value[0]" value="" class="form-control" />
+                }
+            }
+
+            <h3>Consents</h3>
+
+            @foreach (KeyValuePair<string, int[]> consent in ViewBag.Consents)
+            {
+                List<string> list = new List<string>(); 
+                foreach (KeyValuePair<int, string[]> inputs in ViewBag.Inputs)
+                {
+                    foreach (var item in consent.Value)
+                    {
+                        if (inputs.Key == item)
+                        {
+                            var value = inputs.Value[0];
+                            list.Add(value);
+                        }
+                    }
+                }
+                <p>
+                    <input type="checkbox" name="name" value="" />
+                    Kerkohen
+                    @foreach (var item in list)
+                    {
+                        @item
+                        <span>,</span>
+                    }
+                    @consent.Key
+                </p>
+
+
+
+
+            }
+            <br>
+            <input type="submit" name="name" value="Get" class="btn" />
+        </form>
+<p></p>
+

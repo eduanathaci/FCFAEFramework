@@ -55,9 +55,18 @@ namespace FCFAEFramework.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Clients.Add(client);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (!db.Clients.Any(e=>e.Email==client.Email))
+                {
+                    db.Clients.Add(client);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.ClientExit = "A client with this username already exist!";
+                }
+                
+               
             }
 
             return View(client);

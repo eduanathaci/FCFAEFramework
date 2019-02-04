@@ -60,7 +60,7 @@ namespace FCFAEFramework.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Banner,Description,StartDate,EndDate,IsActive,CompanyID")] Service service,FormCollection collection,Data data)
+        public ActionResult Create([Bind(Include = "ID,ServiceName,Banner,Description,StartDate,EndDate,IsActive,CompanyID")] Service service,FormCollection collection,Data data)
         {
             if (ModelState.IsValid)
             {
@@ -71,7 +71,6 @@ namespace FCFAEFramework.Controllers
                 for (int i = 6; i < collection.Count; i++)
                 {
                     string[] nameOfItem = Request.Form[collection.AllKeys[i]].Split(',');
-                   
                     if (i>6)
                     {
                         int x;
@@ -83,12 +82,11 @@ namespace FCFAEFramework.Controllers
                             }
                         }
                         nameOfItem = nameOfItem.Where(y => y != null).ToArray();
-                       
                     }
                     dictionary.Add(collection.AllKeys[i], nameOfItem);
                 }
 
-
+                Consent consent = new Consent();
 
                 //Loop-a per me i nda vlerat per consentat e vecante.
                 for (int a = 0; a < dictionary["Purpose"].Length; a++)
@@ -96,7 +94,6 @@ namespace FCFAEFramework.Controllers
                     Dictionary<string, string> pairs = new Dictionary<string, string>();
                     foreach (KeyValuePair<string,string[]> item in dictionary)
                     {
-                        string myKey = item.Key;
                         pairs.Add(item.Key,dictionary[item.Key.ToString()].GetValue(a).ToString());
                     }
 
@@ -105,23 +102,24 @@ namespace FCFAEFramework.Controllers
                         if (item.Value=="false")
                         {
                             pairs.Remove(item.Key);
-                            
                         }
                     }
-                    List<Company> c = (List<Company>)Session["Company"];
+                    List<Company> company= (List<Company>)Session["Company"];
 
                     if (a==0)
                     {
-                        service.CompanyID = c[0].ID;
+                        service.IsActive = true;
+                        service.CompanyID = company[0].ID;
                         db.Services.Add(service);
                         db.SaveChanges();
                     }
                     int sID = service.ID;
 
                     int i = -1;
+
+                   
                     foreach (var item in pairs)
                     {
-                        Consent consent = new Consent();
                         if (i==-1)
                         {
                             consent.Purpose = item.Value;
@@ -136,18 +134,15 @@ namespace FCFAEFramework.Controllers
                             consent.ServiceID = sID;
                             db.Consents.Add(consent);
                             db.SaveChanges();
-
                         }
                         i++;
                     }
                 }
                 return RedirectToAction("Index");
             }
-
             ViewBag.CompanyID = new SelectList(db.Companies, "ID", "Name", service.CompanyID);
             return View(service);
         }
-
         // GET: Services/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -169,7 +164,7 @@ namespace FCFAEFramework.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Banner,Description,StartDate,EndDate,IsActive,CompanyID")] Service service)
+        public ActionResult Edit([Bind(Include = "ID,ServiceName,Banner,Description,StartDate,EndDate,IsActive,CompanyID")] Service service)
         {
             if (ModelState.IsValid)
             {
@@ -205,6 +200,40 @@ namespace FCFAEFramework.Controllers
             db.Services.Remove(service);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+
+        public ActionResult Get(int? id)
+        {
+            Consent consent = new Consent();
+            var getService = db.Services.Where(s => s.ID == id).ToList();
+            var list = db.Consents.Where(s => s.ServiceID == id).ToList();
+
+            Dictionary<string, int[]> consentValues = new Dictionary<string, int[]>();
+
+            Dictionary<int, string[]> dataForInputs = new Dictionary<int, string[]>();
+            var distNumbers = db.Consents.Where(s => s.ServiceID == id).Select(s => s.DataID).Distinct().ToList();
+
+            var distPurpose = db.Consents.Where(s => s.ServiceID == id).Select(p => p.Purpose).Distinct().ToList();
+
+            foreach (var item in distPurpose)
+            {
+                var dataList = db.Consents.Where(p => p.Purpose == item && p.ServiceID == id).Select(d =>d.DataID ).ToList();
+                
+                consentValues.Add(item, dataList.ToArray());
+            }
+
+            foreach (var item in distNumbers)
+            {
+                var nameOfData = db.Datas.Where(i => i.ID == item).Select(n => n.NameOfData).ToList();
+                var typeOfData = db.Datas.Where(i => i.ID == item).Select(n => n.TypeOfData).ToList();
+                string[] temp = { nameOfData[0].ToString(), typeOfData[0].ToString() };
+                dataForInputs.Add(item,temp.ToArray());
+            }
+            ViewBag.Service = getService;
+            ViewBag.Inputs = dataForInputs;
+            ViewBag.Consents = consentValues;
+            return View();
         }
 
         protected override void Dispose(bool disposing)
